@@ -1,0 +1,32 @@
+<!-- Syllabics "shii" -->
+
+<svg	version			= "1.1"
+		xmlns			= "http://www.w3.org/2000/svg"
+		width			= "100"
+		height			= "100"
+		>
+
+	<g
+		fill			= "transparent"
+		stroke			= "black"
+		stroke-width	= "6"
+		stroke-linecap	= "round"
+		>
+		
+		<path d			= "M 71 40 V 38
+						   M 71 38
+						   A 9 9 0 1 0 53 38
+						   M 53 38 L 53 66
+						   A 9 9 0 1 1 35 66
+						   M 35 66 V 64"
+		/>
+	
+	</g>
+	
+	<circle
+		cx				= "62"
+		cy				= "9"
+		r				= "5"
+	/>
+
+</svg>

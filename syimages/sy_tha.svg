@@ -1,0 +1,29 @@
+<!-- Syllabics "tha" -->
+
+<svg	version			= "1.1"
+		xmlns			= "http://www.w3.org/2000/svg"
+		width			= "100"
+		height			= "100"
+		>
+
+	<g
+		fill			= "transparent"
+		stroke			= "black"
+		stroke-width	= "6"
+		stroke-linecap	= "round"
+		>
+		
+		<circle
+			cx			= "56"
+			cy			= "32"
+			r			= "7"
+		/>
+		
+		<path d			= "M 56 25 L 50 25
+						   A 25 25 0 0 0 50 75
+						   M 50 75 L 63 75"
+		/>
+		
+	</g>
+
+</svg>

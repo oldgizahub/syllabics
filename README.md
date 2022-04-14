@@ -11,7 +11,7 @@ Written in Free Pascal with pas2js transpiler
 Author: Geoff Gigg
 
 
-2002.04.12
+2022.04.12
 ----------
 
 Set up repository.
