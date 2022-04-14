@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html	lang = "en">
+
+<!--==================================================================
+    Syllabics Memory Trainer.
+
+    A few activities that assist with memorizing the syllabics of the
+    East Cree language.
+    ==================================================================-->
+
+  <head>
+  
+    <meta	charset	= "utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />    
+    <script	src="symemorizer.js"></script>
+    <title>Syllabics Memory Trainer</title>
+
+    <!--====================Style elements============================--> 
+    <!-- Use 'rem' instead of 'em' to make sizes relative to same
+         <html> element and not to immediate parent.                  -->
+                
+    <style>
+      body             {font-size                 : 100%;                }
+      button           {font-size                 : 1.2rem;              }      
+      figure           {display                   : inline-block;
+                        margin                    : 0;
+                        border                    : 1px solid red        }
+      figure:hover figcaption {visibility         : visible;             }                        
+      figcaption       {text-align                : center;
+                        visibility                : visible;             }                        
+      h1               {font-size                 : 3.0rem;              }
+      #divaboutwords   {font-size                 : 1.2rem;              }
+      #divwelcomewords {font-size                 : 4.0rem;              }
+      #sidebar         {background-color          : lightblue;
+                        font-size                 : 1.2rem               }
+      
+      .answertext      {font-size                 : 4.0rem;              }
+
+      .definitiontext  {font-size                 : 3.0rem;
+                        font-style                : italic;              }
+      .gridcell        {outline                   : 1px solid red;       }
+      
+      .gridlayout      {display                   : grid;
+                        grid-template-columns     : 225px 600px 600px 600px 700px 600px 600px;
+                        gap                       : 1px;                 }
+      .helptext        {font-size                 : 1.0rem;              
+                        font-style                : italic;              }
+      .inline          {display                   : inline-block;
+                        margin                    : 0                    }                           
+      .block           {display                   : block;               }
+    </style>
+     
+  </head>
+ 
+  <body>
+    
+    <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Syllabics Memory Trainer</h1>
+
+	<!--====================Start of grid=============================-->
+		
+    <div            class     = "gridlayout">	
+
+      <!--=========First column - the sidebar with selections=========-->
+      	
+      <div          class     = "gridcell"
+                    id        = "sidebar">
+
+        <br>
+        <br>
+        	  
+        <!--................Which activity?..............................-->
+	
+        <div        id        = "divactivity">
+          <label    for       = "selactivity"><i><b>Choose an activity ... &nbsp;&nbsp;</b></i></label>
+          <select   id        = "selactivity"
+                    name      = "selactivity">
+            <option value     = "pleasechoose">--Please choose an option--</option>
+            <option value     = "chart">Display the entire chart</option>
+            <option value     = "onesyllabic">Test one syllabic at a time</option>
+            <option value     = "oneword">Test a complete word</option>
+            <option value     = "convert">Convert Roman text to syllabics</option>
+            <option value     = "about">About this site</option>
+          </select>
+        </div>
+	  
+        <!--.......Syllabic order: randomly or by row or by column....-->
+
+        <div        id        = "divquestionorder"
+                    hidden
+        >
+          <br>	
+          <label    for       = "selquestionorder"><i>Present syllabics ... &nbsp;&nbsp;</i></label>
+          <select   id        = "selquestionorder"
+                    name      = "selectquestion">
+            <option value     = "random" selected>in random order</option>
+            <option value     = "firstsound">in first sound order</option>
+            <option value     = "lastsound">in last sound order</option>
+          </select>
+        </div>
+	
+        <!--...........Answer makeup..................................-->
+
+        <div        id        = "divanswermakeup"
+                    hidden
+        >
+          <br>	
+          <label    for       = "selanswermakeup"><i>Give answer as ... &nbsp;&nbsp;</i></label>
+          <select   id        = "selanswermakeup"
+                    name      = "selectanswer">
+            <option value     = "textandvoice" selected>text and voice</option>
+            <option value     = "text">text only</option>
+            <option value     = "voice">voice only</option>
+            <option value     = "none">don't show answers</option>
+          </select>
+        </div>
+	
+        <!--...........Show definition................................-->
+
+        <div        id        = "divdefinition"
+                    hidden
+        >
+          <br>	
+          <label    for       = "seldefinition"><i>Show definition ... &nbsp;&nbsp;</i></label>
+          <select   id        = "seldefinition"
+                    name      = "selectdefinition">
+            <option value     = "yes" selected>yes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+            <option value     = "no">no&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+          </select>
+        </div>
+
+        <!--...........Show text on chart.............................-->
+
+        <div        id        = "divcharttext"
+                    hidden
+        >
+          <br>	
+          <label    for       = "selcharttext"><i>Show syllabic text ... &nbsp;&nbsp;</i></label>
+          <select   id        = "selcharttext"
+                    name      = "selectcharttext">
+            <option value     = "yes" selected>yes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+            <option value     = "no">no&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+          </select>
+        </div>
+	
+        <!--................Turn off help button......................-->
+	          
+        <div        id       = "divnohelpbutton"
+                    hidden           
+        >
+        <br>
+          <button   id       = "butNoHelp"
+                    style    ="font-size:.75rem">
+            <code>x</code>
+          </button>
+        </div>
+        
+        <!--...........Help for one syllabic..........................-->
+
+        <div        id        = "divhelponesyllabic"
+                    hidden
+        >	       
+          <p class = "helptext">Display syllabic characters one at a time.
+Say it out loud and recall its text value. Start by choosing to show them in row
+or column order. As you improve, select random order, and reduce the amount
+of answer material given until you do not require any answers at all.</p>
+        </div>
+        
+        <!--...........Help for one word..............................-->
+
+        <div        id        = "divhelponeword"
+                    hidden
+        >	       
+          <p class = "helptext">Display a syllabic word. Say it out loud.
+As before, reduce the amount of answer material until you don't need any.</p>
+        </div>
+        
+        <!--...........Help for chart.................................-->
+
+        <div        id        = "divhelpchart"
+                    hidden
+        >	       
+          <p class = "helptext">Look at the syllabic characters and their text values.
+Try to remember their values. Turn the text off and see if you can recall them. Practise writing
+the syllabic characters.</p>
+        </div>
+ 
+        <!--...........Help for convert text..........................-->
+
+        <div        id        = "divhelpconvert"
+                    hidden
+        >	       
+          <p class = "helptext">Type one or more East Cree words in Roman text and they will
+be converted to syllabic characters (limit of about 30). Or enter any combination of syllabic
+text from the chart. You may even enter any text at all (non-conforming text will be ignored).
+<br>
+<br>
+The goal is to anticipate what syllabic characters will be displayed. You could even write down
+your expected syllabic characters and compare with the conversion.</p>
+ 
+        </div>
+	
+        <!--................Help button...............................-->
+	          
+        <div        id       = "divhelpbutton"
+                    hidden           
+        >
+          <br>
+          <br>
+          <br>&nbsp;&nbsp;&nbsp;	     
+          <button   id       = "butHelp">
+            <code>Help&nbsp;</code>
+          </button>
+          <br>
+          <br>
+        </div>
+     
+      </div>
+      
+      <!--========Second column - welcome=============================-->	
+    
+      <div          class     = "gridcell"
+                    id        = "divwelcome"
+      > 	
+        <!--...............Display the welcome words..................-->
+      
+        <div        id        = "divwelcomewords">
+          <img      class="inline" src="syimages/_blank.svg" alt="blank" width="100" height="100">
+          <img      class="inline" src="syimages/sy_waa.svg" alt="blank" width="100" height="100">
+          <img      class="inline" src="syimages/sy_chi.svg" alt="blank" width="100" height="100">
+          <img      class="inline" src="syimages/sy_yaa.svg" alt="blank" width="100" height="100">
+          <img      class="inline" src="syimages/sy_h.svg"   alt="blank" width="100" height="100">
+          <br>
+          <p        class     = "answertext">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;waachiyaah
+          <p        class     = "definitiontext">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hello
+          </p>
+          
+        </div>
+
+      </div>
+     
+      <!--=========Third column - drill for entire chart==============-->
+
+      <div          class     = "gridcell"
+                    id        = "divchart"
+                    hidden
+      > 	
+      	
+        <!--.......Note: the chart is generated by the script.........-->
+        
+        <div        id        = "divchartimages">
+        </div>
+      </div>
+
+      <!--========Fourth column - drill for one syllabic==============-->	
+   
+      <div          class     = "gridcell"
+                    id        = "divsyllabic"
+                    hidden
+      > 	
+	
+        <!--..............Syllabics image.............................-->
+
+        <div        id        = "divsyllabicimage">
+          <img      id        = "syllabicimage"
+                    src       = "syimages/_blank.svg"
+                    alt       = "blank"
+                    width     = "100"
+                    height    = "100"
+          >
+        </div>
+       	
+        <!--..............Syllabics text answer.......................-->
+
+        <div        id        = "divsyllabictext">		
+          <p        class     = "answertext"
+                    id        = "syllabictext"
+            >&nbsp;
+          </p>
+        </div>
+	
+        <!--..............The syllabic voiced.........................-->
+        
+              <!-- Note that it doesn't work from script if using
+                   separate <source> element inside <audio> -->
+                   
+        <div        id        = "divsyllabicaudio">
+          <audio    autoplay
+                    id        = "syllabicaudio"
+                    src       = "sysounds/_blank.ogg"
+            >No audio
+          </audio>
+        </div>
+	
+        <!--................Next/Answer button........................-->
+         
+             <!-- The same button is used for "Answer" and "Next"
+                  so the user does not have to move the mouse.
+                  Button has fixed font so it will not change size
+                  as we put new text on it provided we use same number
+                  of characters (we can pad with &nbsp) -->
+	          
+        <div         id       = "divbutton">
+          <br>
+          <br>
+          <br>&nbsp;&nbsp;&nbsp;	     
+          <button     id       = "butNext">
+            <code>Next&nbsp;</code>
+          </button>
+          <br>
+          <br>
+          <br>
+        </div>
+	   
+      </div>
+     
+      <!--========Fifth column - drill for a complete word============-->	
+    
+      <div          class     = "gridcell"
+                    id        = "divword"
+                    hidden
+      > 	
+	
+        <!--..............Syllabics images for the word test..........-->
+
+        <div        id        = "divwordimages">
+          <img      class="inline" id="wordimage1"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage2"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage3"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage4"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage5"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage6"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage7"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage8"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage9"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage10" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="wordimage11" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+        </div>
+       	
+        <!--..............The word in text........................-->
+
+        <div        id        = "divwordtext">		
+          <p        class     = "answertext"
+                    id        = "wordtext"
+            >&nbsp;
+          </p>
+        </div>
+       	
+        <!--..............The word definition.....................-->
+
+        <div        id        = "divworddefinition">		
+          <p        class     = "definitiontext"
+                    id        = "worddefinition"
+            >&nbsp;
+          </p>
+        </div>
+	
+        <!--..............The word voiced.........................-->
+                   
+        <div        id        = "divwordaudio">
+          <audio    autoplay
+                    id        = "wordaudio"
+                    src       = "sywords/_blank.ogg3"
+            >No audio
+          </audio>
+        </div>
+	
+        <!--................Button that begins the drill..............-->
+	          
+        <div        id       = "divwordbutton">
+          <br>
+          <br>
+          <br>&nbsp;&nbsp;&nbsp;	     
+          <button   id       = "butWordNext">
+            <code>Next&nbsp;</code>
+          </button>
+          <br>
+          <br>
+          <br>
+        </div>
+
+      </div>
+
+      <!--=========Sixth column - from Roman to syllabics=============-->	
+
+      <div          class     = "gridcell"
+                    id        = "divconvert"
+                    hidden
+      > 
+      
+        <!--..............The resulting syllabic images............................-->
+        <div        id        = "divconvimages">
+          <img      class="inline" id="convimage1"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage2"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage3"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage4"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage5"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage6"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage7"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage8"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage9"  src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage10" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage11" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img                     id="convimage12" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage13" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage14" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage15" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage16" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage17" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage18" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage19" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage20" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage21" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage22" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img                     id="convimage23" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage24" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage25" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage26" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage27" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage28" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage29" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage30" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage31" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage32" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+          <img      class="inline" id="convimage33" src="syimages/_blank.svg" alt="blank" width="50" height="50">
+        </div>
+
+        <!--..............Text area for input......................................-->
+
+        <div        class     = "tt"
+                    id        = "divconv"
+        >
+          <label    for       = "convtext"><i>Enter East Cree Roman text:</i></label>
+          <textarea id        = "convtext"
+                    name      = "convtext"
+                    rows      = "3"
+                    cols      = "60"
+                    maxlength = "150"
+          >      	
+      	  </textarea>
+      	</div>
+	
+        <!--................Button to start convert...................-->
+	          
+        <div        id       = "divconvbutton">
+          <br>
+          <br>
+          <br>&nbsp;&nbsp;&nbsp;	     
+          <button   id       = "butConvert">
+            <code>Convert</code>
+          </button>
+          <br>
+          <br>
+          <br>
+        </div>
+      	  
+      </div>
+           
+      <!--==============Seventh column - about this site==============-->	
+    
+      <div          class     = "gridcell"
+                    id        = "divabout"
+                    hidden
+      >
+      
+        <!--....The site content, disclaimer, and technical notes.....-->
+      
+        <div        id        = "divaboutwords">
+          <p>This site contains some drills intended to help with memorization and recognition of the symbols of <a href="https://en.wikipedia.org/wiki/Canadian_Aboriginal_syllabics">Canadian Aboriginal Syllabics</a>. The focus is on the syllabic characters used in <a href="https://www.eastcree.org/cree/">East Cree</a>.
+          <p>The exercises are for fun and not intended for instruction. They may contain inaccuracies. All errors are mine. I am not a speaker. The sounds are approximate and are there only to assist in memorization of the syllabics. Please refer to the East Cree site for authoritative pronunciations and grammar.<br>
+          <br>
+          <p>Pronunciation hints:
+          <ul>
+            <li>'p' is more like 'b'</li>
+            <li>'k' is more like 'g'</li>
+            <li>'t' is more like 'd'</li>
+            <li>'ch' is more like 'j'</li>
+            <li>final 'u' is more like a long 'o'</li>
+            <li>'waa' in combinations like 'shwaa', 'ywaa' etc. is more like a long 'o'</li>
+          </ul>
+            Technical details:
+          <ul>
+            <li>The site has been created using the <a href="https://www.freepascal.org/">Free Pascal</a> language and the <a href="https://wiki.freepascal.org/pas2js">pas2js</a> transpiler on <a href="https://mxlinux.org/">MX Linux</a>.</li>
+            <li>The syllabics are rendered using home-grown <a href="https://en.wikipedia.org/wiki/Scalable_Vector_Graphics">Scalable Vector Graphics</a> files.</li>
+            <li>The Syllabics Memory Trainer is free software, distributed under <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html">GNU Public Licence, version 2</a>. Source is available on <a href="https://github.com/oldgizahub/syllabics">GitHub</a>.</li>
+          </ul>
+          <br>
+          <small>
+            <i>Last revised:</i> 2022.04.13
+          </small>
+        </div>      
+      
+      </div>
+
+    </div> <!-- end of grid -->
+  
+    <!--================Launch the script=============================-->   
+
+    <script>
+      rtl.run();
+    </script>
+	
+  </body>
+  
+</html>

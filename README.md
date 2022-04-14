@@ -7,7 +7,7 @@ and then provides the answer on demand in text and/or voice.
 The syllabic alphabet used is the subset of the Canadian Aboriginal Syllabics
 used in the East Cree language.
 
-Written in Free Pascal with pas2js transpiler
+Written in Free Pascal using pas2js transpiler to create JavaScript.
 Author: Geoff Gigg
 
 
@@ -16,3 +16,7 @@ Author: Geoff Gigg
 
 Set up repository.
 
+2022.04.13/14
+-------------
+
+Add images, sounds, html, and program.
